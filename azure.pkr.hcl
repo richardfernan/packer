@@ -33,11 +33,6 @@ variable "image_name" {
   default = "Image_terra"
 }
 
-variable "existing_image_version" {
-  type    = string
-  default = "0.0.3"  # Versão existente da imagem
-}
-
 variable "new_image_version" {
   type    = string
   default = "0.0.4"  # Nova versão da imagem
@@ -50,18 +45,10 @@ source "azure-arm" "example" {
   subscription_id                  = var.subscription_id
 
   resource_group_name              = var.resource_group_name
-  source_image_id                  = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Compute/galleries/${var.gallery_name}/images/${var.image_name}/versions/${var.existing_image_version}"
-
   managed_image_resource_group_name = var.resource_group_name
-  managed_image_name                = var.image_name
+  managed_image_name                = "${var.image_name}_${var.new_image_version}"
 
   os_type = "Linux"
-
-  shared_image_gallery {
-    gallery_name   = var.gallery_name
-    image_name     = var.image_name
-    image_version  = var.new_image_version
-  }
 
   azure_tags = {
     dept = "Engineering"
@@ -85,4 +72,18 @@ build {
     inline_shebang = "/bin/sh -x"
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
+}
+
+post-processor "azure-arm" {
+  action                          = "SharedImage"
+  subscription_id                 = var.subscription_id
+  tenant_id                       = var.tenant_id
+  client_id                       = var.client_id
+  client_secret                   = var.client_secret
+  location                        = "East US"
+  resource_group_name             = var.resource_group_name
+  gallery_name                    = var.gallery_name
+  image_name                      = var.image_name
+  image_version                   = var.new_image_version
+  managed_image_id                = "${var.resource_group_name}/providers/Microsoft.Compute/images/${var.image_name}_${var.new_image_version}"
 }
