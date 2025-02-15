@@ -25,4 +25,4 @@ jobs:
         rm packer.zip
 
     - name: Build Image with Packer
-      run: packer build template.json
+      run: packer build template..pkr.hcl
