@@ -33,9 +33,14 @@ variable "image_name" {
   default = "Image_terra"
 }
 
-variable "image_version" {
+variable "existing_image_version" {
   type    = string
-  default = "0.0.3"  # Atualize para a nova versão
+  default = "0.0.3"  # Versão existente da imagem
+}
+
+variable "new_image_version" {
+  type    = string
+  default = "0.0.4"  # Nova versão da imagem
 }
 
 source "azure-arm" "example" {
@@ -44,17 +49,18 @@ source "azure-arm" "example" {
   tenant_id                        = var.tenant_id
   subscription_id                  = var.subscription_id
 
+  resource_group_name              = var.resource_group_name
+  source_image_id                  = "/subscriptions/${var.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Compute/galleries/${var.gallery_name}/images/${var.image_name}/versions/${var.existing_image_version}"
+
   managed_image_resource_group_name = var.resource_group_name
   managed_image_name                = var.image_name
 
   os_type = "Linux"
 
   shared_image_gallery {
-    subscription   = var.subscription_id
-    resource_group = var.resource_group_name
     gallery_name   = var.gallery_name
     image_name     = var.image_name
-    image_version  = var.image_version
+    image_version  = var.new_image_version
   }
 
   azure_tags = {
@@ -79,12 +85,4 @@ build {
     inline_shebang = "/bin/sh -x"
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
-
-   shared_image_gallery {
-     subscription   = var.subscription_id
-     resource_group = var.resource_group_name
-     gallery_name   = var.gallery_name
-     image_name     = var.image_name
-     image_version  = "0.0.4"
-   }
 }
