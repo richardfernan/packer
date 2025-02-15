@@ -40,7 +40,7 @@ variable "shared_image_name" {
 
 variable "shared_image_version" {
   type    = string
-  default = "0.0.3"
+  default = "0.0.4"
 }
 
 source "azure-arm" "example" {
