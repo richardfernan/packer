@@ -1,5 +1,13 @@
-trigger:
-- main  # Defina o branch que você deseja monitorar
+name: Packer
+
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
