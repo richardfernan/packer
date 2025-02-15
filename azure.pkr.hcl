@@ -30,7 +30,7 @@ variable "gallery_name" {
 
 variable "image_name" {
   type    = string
-  default = "MyCentos"
+  default = "Image_terra"
 }
 
 variable "image_version" {
