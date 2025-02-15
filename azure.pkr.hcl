@@ -30,12 +30,12 @@ variable "gallery_name" {
 
 variable "image_name" {
   type    = string
-  default = "Image_terra"
+  default = "MyCentos"
 }
 
 variable "image_version" {
   type    = string
-  default = "0.0.4"  # Atualize para a nova versão
+  default = "0.0.3"  # Atualize para a nova versão
 }
 
 source "azure-arm" "example" {
