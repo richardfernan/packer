@@ -79,4 +79,18 @@ build {
     inline_shebang = "/bin/sh -x"
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
+
+post-processor "azure-arm" {
+   managed_image_resource_group_name = var.resource_group_name
+   managed_image_name                = var.image_name
+
+   shared_image_gallery {
+     subscription   = var.subscription_id
+     resource_group = var.resource_group_name
+     gallery_name   = var.gallery_name
+     image_name     = var.image_name
+     image_version  = 0.0.4
+   }
+}
+
 }
