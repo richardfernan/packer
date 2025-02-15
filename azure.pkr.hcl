@@ -35,7 +35,7 @@ variable "image_name" {
 
 variable "image_version" {
   type    = string
-  default = "0.0.3"  # Atualize para a nova versão
+  default = "0.0.4"  # Atualize para a nova versão
 }
 
 source "azure-arm" "example" {
