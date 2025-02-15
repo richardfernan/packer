@@ -25,4 +25,4 @@ jobs:
         rm packer.zip
 
     - name: Build Image with Packer
-      run: packer build template.pkr.hcl
+      run: packer build azure.pkr.hcl
