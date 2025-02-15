@@ -16,15 +16,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
     - name: Install Packer
       run: |
-        pip install --upgrade pip setuptools wheel
-        pip install packer
+        # Download and install Packer
+        curl -L -o packer.zip https://releases.hashicorp.com/packer/1.7.8/packer_1.7.8_linux_amd64.zip
+        unzip packer.zip
+        sudo mv packer /usr/local/bin/
+        rm packer.zip
 
     - name: Build Image with Packer
       run: packer build template.json
