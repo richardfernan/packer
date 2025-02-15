@@ -23,24 +23,19 @@ variable "resource_group_name" {
   default = "rgsnap"
 }
 
-variable "image_name" {
-  type    = string
-  default = "Image_terra"
-}
-
 variable "gallery_name" {
   type    = string
   default = "imagegallery"
 }
 
-variable "shared_image_name" {
+variable "image_name" {
   type    = string
   default = "Image_terra"
 }
 
-variable "shared_image_version" {
+variable "image_version" {
   type    = string
-  default = "0.0.4"
+  default = "0.0.4"  # Atualize para a nova versão
 }
 
 source "azure-arm" "example" {
@@ -55,11 +50,11 @@ source "azure-arm" "example" {
   os_type = "Linux"
 
   shared_image_gallery {
-    subscription = var.subscription_id
+    subscription   = var.subscription_id
     resource_group = var.resource_group_name
-    gallery_name = var.gallery_name
-    image_name = var.shared_image_name
-    image_version = var.shared_image_version
+    gallery_name   = var.gallery_name
+    image_name     = var.image_name
+    image_version  = var.image_version
   }
 
   azure_tags = {
