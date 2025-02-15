@@ -1,0 +1,20 @@
+trigger:
+- main  # Defina o branch que você deseja monitorar
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install packer
+  displayName: 'Instalar Packer'
+
+- script: |
+    packer build template.json
+  displayName: 'Executar Packer Build'
