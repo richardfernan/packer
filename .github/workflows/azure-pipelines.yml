@@ -13,8 +13,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-- job: PackerBuild
-  displayName: 'Job de Build do Packer'
+  name: 'Job de Build do Packer'
   steps:
   - task: UsePythonVersion@0
     inputs:
