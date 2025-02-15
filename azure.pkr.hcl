@@ -25,7 +25,7 @@ variable "resource_group_name" {
 
 variable "image_name" {
   type    = string
-  default = "myPackerImagev1"
+  default = "Image_terra"
 }
 
 variable "gallery_name" {
@@ -35,12 +35,12 @@ variable "gallery_name" {
 
 variable "shared_image_name" {
   type    = string
-  default = "MyCentos"
+  default = "Image_terra"
 }
 
 variable "shared_image_version" {
   type    = string
-  default = "0.0.1"
+  default = "0.0.3"
 }
 
 source "azure-arm" "example" {
