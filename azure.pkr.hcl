@@ -89,7 +89,7 @@ post-processor "azure-arm" {
      resource_group = var.resource_group_name
      gallery_name   = var.gallery_name
      image_name     = var.image_name
-     image_version  = 0.0.4
+     image_version  = "0.0.4"
    }
 }
 
