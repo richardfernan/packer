@@ -1,19 +1,12 @@
-name: Packer
-
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+trigger:
+- main  # Defina o branch que você deseja monitorar
 
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  name: 'Job de Build do Packer'
+- job: PackerBuild
+  displayName: 'Job de Build do Packer'
   steps:
   - task: UsePythonVersion@0
     inputs:
