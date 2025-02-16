@@ -80,10 +80,4 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
 
-  provisioner "shell-local" {
-    inline = [
-      "az login --service-principal -u ${client_id} -p ${client_secret} --tenant ${tenant_id}",
-      "az sig image-version create --resource-group ${resource_group_name} --gallery-name ${gallery_name} --gallery-image-definition ${image_name} --gallery-image-version ${image_version} --managed-image \"/subscriptions/${subscription_id}/resourceGroups/${resource_group_name}/providers/Microsoft.Compute/images/${image_name}\""
-    ]
-  }
 }
