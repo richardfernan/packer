@@ -30,12 +30,12 @@ variable "gallery_name" {
 
 variable "image_name" {
   type    = string
-  default = "Image_terra"
+  default = "MyCentos"
 }
 
-variable "new_image_version" {
+variable "image_version" {
   type    = string
-  default = "0.0.4"  # Nova versão da imagem
+  default = "0.0.2"  # Atualize para a nova versão
 }
 
 source "azure-arm" "example" {
@@ -44,11 +44,18 @@ source "azure-arm" "example" {
   tenant_id                        = var.tenant_id
   subscription_id                  = var.subscription_id
 
-  resource_group_name              = var.resource_group_name
   managed_image_resource_group_name = var.resource_group_name
-  managed_image_name                = "${var.image_name}_${var.new_image_version}"
+  managed_image_name                = var.image_name
 
   os_type = "Linux"
+
+  shared_image_gallery {
+    subscription   = var.subscription_id
+    resource_group = var.resource_group_name
+    gallery_name   = var.gallery_name
+    image_name     = var.image_name
+    image_version  = var.image_version
+  }
 
   azure_tags = {
     dept = "Engineering"
@@ -73,19 +80,10 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
 
-
-post-processor "azure-arm" {
-  action                          = "SharedImage"
-  subscription_id                 = var.subscription_id
-  tenant_id                       = var.tenant_id
-  client_id                       = var.client_id
-  client_secret                   = var.client_secret
-  location                        = "East US"
-  resource_group_name             = var.resource_group_name
-  gallery_name                    = var.gallery_name
-  image_name                      = var.image_name
-  image_version                   = var.new_image_version
-  managed_image_id                = "${var.resource_group_name}/providers/Microsoft.Compute/images/${var.image_name}_${var.new_image_version}"
-}
-
+  provisioner "shell-local" {
+    inline = [
+      "az login --service-principal -u ${client_id} -p ${client_secret} --tenant ${tenant_id}",
+      "az sig image-version create --resource-group ${resource_group_name} --gallery-name ${gallery_name} --gallery-image-definition ${image_name} --gallery-image-version ${image_version} --managed-image \"/subscriptions/${subscription_id}/resourceGroups/${resource_group_name}/providers/Microsoft.Compute/images/${image_name}\""
+    ]
+  }
 }
