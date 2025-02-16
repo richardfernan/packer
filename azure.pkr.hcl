@@ -72,7 +72,7 @@ build {
     inline_shebang = "/bin/sh -x"
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
   }
-}
+
 
 post-processor "azure-arm" {
   action                          = "SharedImage"
@@ -86,4 +86,6 @@ post-processor "azure-arm" {
   image_name                      = var.image_name
   image_version                   = var.new_image_version
   managed_image_id                = "${var.resource_group_name}/providers/Microsoft.Compute/images/${var.image_name}_${var.new_image_version}"
+}
+
 }
